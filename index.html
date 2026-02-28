@@ -1,47 +1,61 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="fr">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+  <!-- AR.js -->
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+
+  <title>Lacets AR</title>
 </head>
 
 <body style="margin: 0; overflow: hidden;">
 
-<a-scene embedded arjs>
+  <a-scene embedded arjs>
 
-<a-assets>
-  <img id="img1" src="étape1.png">
-  <img id="img2" src="étape2.png">
-  <img id="img3" src="étape3.png">
-  <img id="img4" src="étape4.png">
-</a-assets>
+    <!-- Images -->
+    <a-assets>
+      <img id="img1" src="étape1.png">
+      <img id="img2" src="étape2.png">
+      <img id="img3" src="étape3.png">
+      <img id="img4" src="étape4.png">
+    </a-assets>
 
-<a-marker preset="hiro">
-  <a-plane id="image"
-           position="0 0.5 0"
-           rotation="-90 0 0"
-           width="1"
-           height="1"
-           material="src: #img1">
-  </a-plane>
-</a-marker>
+    <!-- Marqueur HIRO -->
+    <a-marker preset="hiro">
 
-<a-entity camera></a-entity>
+      <a-plane id="image"
+        position="0 0.5 0"
+        rotation="-90 0 0"
+        width="1"
+        height="1"
+        material="src: #img1">
+      </a-plane>
 
-</a-scene>
+    </a-marker>
 
-<script>
-let step = 1;
+    <!-- Caméra -->
+    <a-entity camera></a-entity>
 
-document.body.addEventListener("click", () => {
-  step++;
-  if (step > 4) step = 1;
+  </a-scene>
 
-  document.querySelector("#image")
-    .setAttribute("material", "src", "#img" + step);
-});
-</script>
+  <script>
+    let step = 1;
+
+    document.body.addEventListener("click", () => {
+      step++;
+
+      if (step > 4) step = 1;
+
+      const plane = document.querySelector("#image");
+
+      plane.setAttribute("material", "src", "#img" + step);
+    });
+  </script>
 
 </body>
 </html>
