@@ -6,99 +6,41 @@
   <title>Apprentissage lacets</title>
 
   <style>
-    html, body {
-      margin: 0;
-      height: 100%;
-      background: #111;
-      color: #fff;
-      font-family: system-ui, Arial, sans-serif;
-    }
-    .wrap {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-    header {
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      background: rgba(0,0,0,0.35);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    header .left {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .badge {
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.12);
-    }
-    .hint {
-      opacity: 0.85;
-      font-size: 14px;
-    }
-    main {
-      flex: 1;
-      display: grid;
-      place-items: center;
-      padding: 14px;
-    }
-    img {
-      max-width: 100%;
-      max-height: calc(100vh - 120px);
-      border-radius: 14px;
-      background: #222;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-    }
-    footer {
-      padding: 10px 14px;
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-      background: rgba(0,0,0,0.25);
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-    button {
-      border: 0;
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: 15px;
-      cursor: pointer;
-    }
+    body { margin: 0; font-family: Arial, sans-serif; background: #f6f7fb; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 14px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+    .badge { background: #111827; color: #fff; padding: 8px 12px; border-radius: 999px; font-weight: 700; }
+    .hint { color: #374151; font-size: 14px; }
+    main { background: #fff; border-radius: 14px; padding: 12px; box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+    img { width: 100%; height: auto; display: block; border-radius: 10px; cursor: pointer; }
+    footer { display: flex; gap: 10px; margin-top: 12px; }
+    button { flex: 1; padding: 12px; border: 0; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: 700; }
+    #prev { background: #e5e7eb; }
+    #next { background: #2563eb; color: #fff; }
   </style>
 </head>
 
 <body>
   <div class="wrap">
     <header>
-      <div class="left">
-        <div class="badge" id="stepLabel">Étape 1 / 4</div>
-        <div class="hint">Tape/clic sur l’image pour passer à l’étape suivante</div>
-      </div>
+      <div class="badge" id="stepLabel">Étape 1 / 4</div>
+      <div class="hint">Clique/tape sur l’image pour passer à l’étape suivante</div>
     </header>
 
     <main>
-      <img id="img" alt="Étape lacets" />
+      <!-- Image par défaut (au cas où JS tarde) -->
+      <img id="img" src="./step1.png" alt="Étape lacets" />
     </main>
 
     <footer>
-      <button id="prev">◀ Précédent</button>
-      <button id="next">Suivant ▶</button>
+      <button id="prev">⬅ Précédent</button>
+      <button id="next">Suivant ➡</button>
     </footer>
   </div>
 
   <script>
-    // ⚠️ Mets ici EXACTEMENT les noms de fichiers qui sont sur GitHub
-    // D'après ta capture, c'est : step1.png, step2.png, step3.png, step4.png
-    const images = ["step1.png", "step2.png", "step3.png", "step4.png"];
-
+    // ⚠️ Mets EXACTEMENT les noms de fichiers présents dans ton dépôt (à la racine)
+    const images = ["./step1.png", "./step2.png", "./step3.png", "./step4.png"];
     let step = 0; // 0..3
 
     const imgEl = document.getElementById("img");
@@ -122,15 +64,16 @@
     document.getElementById("next").addEventListener("click", next);
     document.getElementById("prev").addEventListener("click", prev);
 
-    // Tap/clic sur l'image = étape suivante
+    // clic/tap sur l’image
     imgEl.addEventListener("click", next);
 
-    // Flèches clavier (optionnel)
+    // clavier (optionnel)
     document.addEventListener("keydown", (e) => {
       if (e.key === "ArrowRight") next();
       if (e.key === "ArrowLeft") prev();
     });
 
+    // 🔥 IMPORTANT : on affiche dès le départ
     render();
   </script>
 </body>
