@@ -1,61 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lacets en Réalité Augmentée</title>
 
-  <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-
-  <!-- AR.js -->
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
-
-  <title>Lacets AR</title>
 </head>
 
-<body style="margin: 0; overflow: hidden;">
-
-  <a-scene embedded arjs>
-
-    <!-- Images -->
+<body style="margin:0; overflow:hidden;">
+  <a-scene embedded arjs="debugUIEnabled: false;">
     <a-assets>
-      <img id="img1" src="étape1.png">
-      <img id="img2" src="étape2.png">
-      <img id="img3" src="étape3.png">
-      <img id="img4" src="étape4.png">
+      <img id="img1" src="etape1.png" />
+      <img id="img2" src="etape2.png" />
+      <img id="img3" src="etape3.png" />
+      <img id="img4" src="etape4.png" />
     </a-assets>
 
     <!-- Marqueur HIRO -->
     <a-marker preset="hiro">
-
-      <a-plane id="image"
-        position="0 0.5 0"
+      <a-plane
+        id="image"
+        position="0 0.6 0"
         rotation="-90 0 0"
-        width="1"
-        height="1"
-        material="src: #img1">
-      </a-plane>
+        width="1.1"
+        height="0.8"
+        material="shader: flat; src: #img1;"
+      ></a-plane>
 
+      <a-text
+        id="texte"
+        value="Étape 1"
+        position="0 1.05 0"
+        rotation="-90 0 0"
+        align="center"
+        color="black"
+        width="3"
+      ></a-text>
     </a-marker>
 
-    <!-- Caméra -->
     <a-entity camera></a-entity>
-
   </a-scene>
 
   <script>
     let step = 1;
 
-    document.body.addEventListener("click", () => {
-      step++;
-
-      if (step > 4) step = 1;
-
+    function updateStep() {
       const plane = document.querySelector("#image");
+      const texte = document.querySelector("#texte");
+      plane.setAttribute("material", "shader: flat; src: #img" + step + ";");
+      texte.setAttribute("value", "Étape " + step);
+    }
 
-      plane.setAttribute("material", "src", "#img" + step);
-    });
+    function nextStep() {
+      step++;
+      if (step > 4) step = 1;
+      updateStep();
+    }
+
+    // clic PC + tap mobile
+    document.body.addEventListener("click", nextStep);
+    document.body.addEventListener("touchstart", nextStep, { passive: true });
+
+    updateStep();
   </script>
-
 </body>
 </html>
