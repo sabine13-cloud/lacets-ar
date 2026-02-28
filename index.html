@@ -4,20 +4,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-
-  <!-- AR.js -->
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
 
   <title>Lacets en Réalité Augmentée</title>
 </head>
 
-<body style="margin: 0; overflow: hidden;">
+<body style="margin:0; overflow:hidden;">
 
   <a-scene embedded arjs="debugUIEnabled: false;">
-
-    <!-- Images -->
     <a-assets>
       <img id="img1" src="étape1.png" />
       <img id="img2" src="étape2.png" />
@@ -25,10 +20,7 @@
       <img id="img4" src="étape4.png" />
     </a-assets>
 
-    <!-- Marqueur Hiro -->
     <a-marker preset="hiro">
-
-      <!-- Image -->
       <a-plane
         id="image"
         position="0 0.6 0"
@@ -38,7 +30,6 @@
         material="shader: flat; src: #img1;"
       ></a-plane>
 
-      <!-- Texte -->
       <a-text
         id="texte"
         value="Étape 1"
@@ -48,11 +39,9 @@
         color="black"
         width="3"
       ></a-text>
-
     </a-marker>
 
     <a-entity camera></a-entity>
-
   </a-scene>
 
   <script>
