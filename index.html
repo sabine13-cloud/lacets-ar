@@ -2,74 +2,136 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
-
-  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
-
-  <title>Lacets en Réalité Augmentée</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apprentissage lacets</title>
 
   <style>
-    html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:#000; }
-    a-scene { position: fixed; top:0; left:0; width:100%; height:100%; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #111;
+      color: #fff;
+      font-family: system-ui, Arial, sans-serif;
+    }
+    .wrap {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(0,0,0,0.35);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    header .left {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+    }
+    .hint {
+      opacity: 0.85;
+      font-size: 14px;
+    }
+    main {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 14px;
+    }
+    img {
+      max-width: 100%;
+      max-height: calc(100vh - 120px);
+      border-radius: 14px;
+      background: #222;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+    footer {
+      padding: 10px 14px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      background: rgba(0,0,0,0.25);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 15px;
+      cursor: pointer;
+    }
   </style>
 </head>
 
 <body>
-  <a-scene
-    embedded
-    vr-mode-ui="enabled: false"
-    renderer="antialias: true; alpha: true; precision: mediump;"
-    arjs="sourceType: webcam; debugUIEnabled: false; displayWidth: 1280; displayHeight: 720;"
-  >
-    <a-assets>
-      <img id="img1" src="etape1.png" />
-      <img id="img2" src="etape2.png" />
-      <img id="img3" src="etape3.png" />
-      <img id="img4" src="etape4.png" />
-    </a-assets>
+  <div class="wrap">
+    <header>
+      <div class="left">
+        <div class="badge" id="stepLabel">Étape 1 / 4</div>
+        <div class="hint">Tape/clic sur l’image pour passer à l’étape suivante</div>
+      </div>
+    </header>
 
-    <a-marker preset="hiro">
-      <a-plane
-        id="image"
-        position="0 0.6 0"
-        rotation="-90 0 0"
-        width="1.1"
-        height="0.8"
-        material="shader: flat; src: #img1;"
-      ></a-plane>
+    <main>
+      <img id="img" alt="Étape lacets" />
+    </main>
 
-      <a-text
-        id="texte"
-        value="Étape 1"
-        position="0 1.05 0"
-        rotation="-90 0 0"
-        align="center"
-        color="black"
-        width="3"
-      ></a-text>
-    </a-marker>
-
-    <a-entity camera></a-entity>
-  </a-scene>
+    <footer>
+      <button id="prev">◀ Précédent</button>
+      <button id="next">Suivant ▶</button>
+    </footer>
+  </div>
 
   <script>
-    let step = 1;
+    // ⚠️ Mets ici EXACTEMENT les noms de fichiers qui sont sur GitHub
+    // D'après ta capture, c'est : step1.png, step2.png, step3.png, step4.png
+    const images = ["step1.png", "step2.png", "step3.png", "step4.png"];
 
-    function updateStep() {
-      const plane = document.querySelector("#image");
-      const texte = document.querySelector("#texte");
-      plane.setAttribute("material", "shader: flat; src: #img" + step + ";");
-      texte.setAttribute("value", "Étape " + step);
+    let step = 0; // 0..3
+
+    const imgEl = document.getElementById("img");
+    const labelEl = document.getElementById("stepLabel");
+
+    function render() {
+      imgEl.src = images[step];
+      labelEl.textContent = `Étape ${step + 1} / ${images.length}`;
     }
 
-    document.body.addEventListener("click", () => {
-      step++;
-      if (step > 4) step = 1;
-      updateStep();
+    function next() {
+      step = (step + 1) % images.length;
+      render();
+    }
+
+    function prev() {
+      step = (step - 1 + images.length) % images.length;
+      render();
+    }
+
+    document.getElementById("next").addEventListener("click", next);
+    document.getElementById("prev").addEventListener("click", prev);
+
+    // Tap/clic sur l'image = étape suivante
+    imgEl.addEventListener("click", next);
+
+    // Flèches clavier (optionnel)
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prev();
     });
 
-    updateStep();
+    render();
   </script>
 </body>
 </html>
