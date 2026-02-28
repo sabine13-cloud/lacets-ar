@@ -4,7 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+  <!-- AR.js -->
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
 
   <title>Lacets en Réalité Augmentée</title>
@@ -13,16 +16,19 @@
 <body style="margin: 0; overflow: hidden;">
 
   <a-scene embedded arjs="debugUIEnabled: false;">
+
+    <!-- Images -->
     <a-assets>
-      <img id="img1" src="assets/step1.png" />
-      <img id="img2" src="assets/step2.png" />
-      <img id="img3" src="assets/step3.png" />
-      <img id="img4" src="assets/step4.png" />
+      <img id="img1" src="étape1.png" />
+      <img id="img2" src="étape2.png" />
+      <img id="img3" src="étape3.png" />
+      <img id="img4" src="étape4.png" />
     </a-assets>
 
-    <!-- Marqueur AR : Hiro -->
+    <!-- Marqueur Hiro -->
     <a-marker preset="hiro">
-      <!-- Image (format rectangulaire pour éviter la déformation) -->
+
+      <!-- Image -->
       <a-plane
         id="image"
         position="0 0.6 0"
@@ -32,7 +38,7 @@
         material="shader: flat; src: #img1;"
       ></a-plane>
 
-      <!-- Texte d'étape -->
+      <!-- Texte -->
       <a-text
         id="texte"
         value="Étape 1"
@@ -42,9 +48,11 @@
         color="black"
         width="3"
       ></a-text>
+
     </a-marker>
 
     <a-entity camera></a-entity>
+
   </a-scene>
 
   <script>
@@ -54,21 +62,16 @@
       const plane = document.querySelector("#image");
       const texte = document.querySelector("#texte");
 
-      // Change l'image affichée
       plane.setAttribute("material", "shader: flat; src: #img" + step + ";");
-
-      // Change le texte
       texte.setAttribute("value", "Étape " + step);
     }
 
-    // Un tap/clic sur l'écran => étape suivante
     document.body.addEventListener("click", () => {
       step++;
       if (step > 4) step = 1;
       updateStep();
     });
 
-    // Initialisation
     updateStep();
   </script>
 
