@@ -1,68 +1,47 @@
 <!doctype html>
-<html lang="fr">
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+  <meta charset="utf-8">
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
-
-  <title>Lacets en Réalité Augmentée</title>
 </head>
 
-<body style="margin:0; overflow:hidden;">
+<body style="margin: 0; overflow: hidden;">
 
-  <a-scene embedded arjs="debugUIEnabled: false;">
-    <a-assets>
-      <img id="img1" src="étape1.png" />
-      <img id="img2" src="étape2.png" />
-      <img id="img3" src="étape3.png" />
-      <img id="img4" src="étape4.png" />
-    </a-assets>
+<a-scene embedded arjs>
 
-    <a-marker preset="hiro">
-      <a-plane
-        id="image"
-        position="0 0.6 0"
-        rotation="-90 0 0"
-        width="1.1"
-        height="0.8"
-        material="shader: flat; src: #img1;"
-      ></a-plane>
+<a-assets>
+  <img id="img1" src="étape1.png">
+  <img id="img2" src="étape2.png">
+  <img id="img3" src="étape3.png">
+  <img id="img4" src="étape4.png">
+</a-assets>
 
-      <a-text
-        id="texte"
-        value="Étape 1"
-        position="0 1.05 0"
-        rotation="-90 0 0"
-        align="center"
-        color="black"
-        width="3"
-      ></a-text>
-    </a-marker>
+<a-marker preset="hiro">
+  <a-plane id="image"
+           position="0 0.5 0"
+           rotation="-90 0 0"
+           width="1"
+           height="1"
+           material="src: #img1">
+  </a-plane>
+</a-marker>
 
-    <a-entity camera></a-entity>
-  </a-scene>
+<a-entity camera></a-entity>
 
-  <script>
-    let step = 1;
+</a-scene>
 
-    function updateStep() {
-      const plane = document.querySelector("#image");
-      const texte = document.querySelector("#texte");
+<script>
+let step = 1;
 
-      plane.setAttribute("material", "shader: flat; src: #img" + step + ";");
-      texte.setAttribute("value", "Étape " + step);
-    }
+document.body.addEventListener("click", () => {
+  step++;
+  if (step > 4) step = 1;
 
-    document.body.addEventListener("click", () => {
-      step++;
-      if (step > 4) step = 1;
-      updateStep();
-    });
-
-    updateStep();
-  </script>
+  document.querySelector("#image")
+    .setAttribute("material", "src", "#img" + step);
+});
+</script>
 
 </body>
 </html>
